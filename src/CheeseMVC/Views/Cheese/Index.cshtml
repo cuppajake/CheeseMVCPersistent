@@ -7,22 +7,23 @@
     <tr>
         <th>Name</th>
         <th>Description</th>
-        <td>Type</td>
+        <td>Category</td>
     </tr>
 
     @foreach (var cheese in Model)
     {
-        <tr>
-            <td>@cheese.Name</td>
-            <td>@cheese.Description</td>
-            <td>@cheese.Type</td>
-        </tr>
+    <tr>
+        <td>@cheese.Name</td>
+        <td>@cheese.Description</td>
+        <td>@cheese.Category</td>
+    </tr>
     }
 </table>
 
 @if (Model.Count == 0)
 {
-    <p>No cheeses yet!</p>
+<a href="~/Views/Cheese/Index.cshtml"></a>
+<p>No cheeses yet!</p>
 }
 
 <p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
