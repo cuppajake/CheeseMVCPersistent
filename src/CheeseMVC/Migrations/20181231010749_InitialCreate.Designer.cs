@@ -11,8 +11,8 @@ using System;
 namespace CheeseMVC.Migrations
 {
     [DbContext(typeof(CheeseDbContext))]
-    [Migration("20181229214739_AddCategory")]
-    partial class AddCategory
+    [Migration("20181231010749_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,11 +51,49 @@ namespace CheeseMVC.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("CheeseMVC.Models.CheeseMenu", b =>
+                {
+                    b.Property<int>("CheeseID");
+
+                    b.Property<int>("MenuID");
+
+                    b.HasKey("CheeseID", "MenuID");
+
+                    b.HasIndex("MenuID");
+
+                    b.ToTable("CheeseMenus");
+                });
+
+            modelBuilder.Entity("CheeseMVC.Models.Menu", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Menus");
+                });
+
             modelBuilder.Entity("CheeseMVC.Models.Cheese", b =>
                 {
                     b.HasOne("CheeseMVC.Models.CheeseCategory", "Category")
                         .WithMany("Cheeses")
                         .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CheeseMVC.Models.CheeseMenu", b =>
+                {
+                    b.HasOne("CheeseMVC.Models.Cheese", "Cheese")
+                        .WithMany("CheeseMenu")
+                        .HasForeignKey("CheeseID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CheeseMVC.Models.Menu", "Menu")
+                        .WithMany("CheeseMenu")
+                        .HasForeignKey("MenuID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
